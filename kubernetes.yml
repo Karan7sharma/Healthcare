@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: healthcare
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: healthcare
+  template:
+    metadata:
+      labels:
+        app: healthcare
+    spec:
+      containers:
+        - name: healthcare
+          image: godsonkaran/healthcare:1.0
+          ports:
+            - containerPort: 8082
+          env:
+            - name: PORT
+              value: "8081"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: healthcare
+spec:
+  type: NodePort
+  ports:
+    - port: 8082s
+      targetPort: 8082
+  selector:
+    app: healthcare
